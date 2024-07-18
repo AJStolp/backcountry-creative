@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: "media",
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -12,6 +13,24 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      },
+      colors: {
+        light: {
+          text: "#212529",
+          background: "#f8f9fa",
+          primary: "#3F5A36",
+          secondary: "#6c757d",
+          accent: "#495057",
+          asideBackground: "#e9ecef",
+        },
+        dark: {
+          text: "#f8f9fa",
+          background: "#212529",
+          primary: "#C0D3BD",
+          secondary: "#939a9e",
+          accent: "#b6bfc4",
+          asideBackground: "#363839",
+        },
       },
     },
   },
