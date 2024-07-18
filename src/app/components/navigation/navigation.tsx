@@ -18,7 +18,7 @@ export default function Navigation({
           href="https://flowbite.com/"
           className="flex items-center space-x-3 rtl:space-x-reverse"
         >
-          <div className="rounded-full bg-transparent dark:bg-dark-background">
+          <div className="rounded-full bg-transparent dark:bg-light-background">
             <img
               src="/backcountry-creative-logo-no-bg.png"
               className="h-16 max-h-16"
@@ -60,7 +60,7 @@ export default function Navigation({
               <li key={e.key}>
                 <a
                   href="#"
-                  className="block py-2 px-3 text-white rounded md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
+                  className="block py-2 px-3 text-light-text rounded md:p-0 dark:text-dark-text"
                   aria-current="page"
                 >
                   {e.linkTitle}
