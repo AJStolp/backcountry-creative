@@ -19,13 +19,13 @@ export default function MyStickyScroll() {
   });
 
   return (
-    <div style={{ height: "200vh", padding: "50px" }}>
+    <div className="h-full" style={{ height: "200vh", padding: "50px" }}>
       <animated.div
         style={{
           ...stickyStyle,
           position: "sticky",
           top: "20px",
-          background: "lightblue",
+          background: "",
           padding: "20px",
         }}
       >
@@ -34,7 +34,7 @@ export default function MyStickyScroll() {
       <div
         style={{
           marginTop: "150vh",
-          background: "lightcoral",
+          background: "",
           padding: "20px",
         }}
       >
