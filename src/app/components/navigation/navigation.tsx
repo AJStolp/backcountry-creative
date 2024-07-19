@@ -1,16 +1,18 @@
-interface NavigationItem {
-  linkTitle?: string;
-  logo?: string;
-  key: string;
+import NavigationItem from "../interfaces/navigation-item";
+
+async function getData(): Promise<NavigationItem[]> {
+  const res = await fetch("http://localhost:5000/api/navigation");
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  return res.json();
 }
 
-interface NavigationProps {
-  navigationData: NavigationItem[];
-}
+export default async function Navigation() {
+  const data: NavigationItem[] = await getData();
 
-export default function Navigation({
-  navigationData,
-}: Readonly<NavigationProps>) {
   return (
     <nav className="w-full">
       <div className="flex flex-wrap items-center justify-between mx-auto">
@@ -47,16 +49,16 @@ export default function Navigation({
           >
             <path
               stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="M1 1h15M1 7h15M1 13h15"
             />
           </svg>
         </button>
         <div className="hidden w-full md:block md:w-auto" id="navbar-default">
           <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 dark:border-gray-700">
-            {navigationData.map((e) => (
+            {data.map((e) => (
               <li key={e.key}>
                 <a
                   href="#"
