@@ -14,7 +14,7 @@ export default async function Navigation() {
   const data: NavigationItem[] = await getData();
 
   return (
-    <nav className="w-full max-w-screen-2xl mx-auto sticky top-0">
+    <nav className="w-full max-w-screen-2xl mx-auto sticky top-0 p-4">
       <div className="flex flex-wrap items-center justify-between mx-auto">
         <a
           href="https://flowbite.com/"

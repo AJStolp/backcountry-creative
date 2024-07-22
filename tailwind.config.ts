@@ -26,7 +26,7 @@ const config: Config = {
         dark: {
           text: "#f8f9fa",
           background: "#212529",
-          primary: "#C0D3BD",
+          primary: "#00FF2A",
           secondary: "#939a9e",
           accent: "#b6bfc4",
           asideBackground: "#363839",

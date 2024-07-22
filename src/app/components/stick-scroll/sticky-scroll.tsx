@@ -80,7 +80,7 @@ export default function MyStickyScroll() {
                 }}
               >
                 <h2
-                  className={`text-3xl font-semibold mb-4 ${
+                  className={`text-3xl font-semibold mb-4 text-dark-primary ${
                     index === 0 ? "text-4xl" : ""
                   }`}
                 >
@@ -100,7 +100,7 @@ export default function MyStickyScroll() {
       <div className="absolute bottom-[4rem] left-0 right-0 flex flex-col items-center justify-center p-4 space-y-4">
         <animated.div style={ctaStyle}>
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-dark-background dark:bg-light-background hover:bg-blue-700 text-dark-text dark:text-light-text font-bold py-2 px-4 rounded"
             onClick={() => {
               // Add navigation logic here
               console.log("Navigate to next section");
