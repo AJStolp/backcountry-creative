@@ -5,9 +5,11 @@ import StickyScroll from "./components/stick-scroll/sticky-scroll";
 
 export default function Home() {
   return (
-    <main className="p-4 max-w-screen-2xl mx-auto">
+    <main className="min-h-screen flex flex-col">
       <Navigation />
-      <StickyScroll />
+      <div className="flex-grow">
+        <StickyScroll />
+      </div>
       <Footer />
     </main>
   );

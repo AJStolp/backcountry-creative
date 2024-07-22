@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
-    <footer className="max-w-screen-2xl mx-auto bg-light-background rounded-lg shadow m-4 dark:bg-dark-background fixed bottom-0 left-0 right-0">
-      <div className=" mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
+    <footer className="w-full max-w-screen-2xl mx-auto bg-light-background rounded-lg shadow m-4 dark:bg-dark-background">
+      <div className="p-4 md:flex md:items-center md:justify-between">
         <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
           © 2024{" "}
           <a href="https://backcountrycreative.com" className="hover:underline">
