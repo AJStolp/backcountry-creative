@@ -11,16 +11,18 @@ export default function TransitionSection() {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
       const windowHeight = window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight;
 
       if (scrollPosition > lastScrollY) {
         // Scrolling down
-        if (scrollPosition + windowHeight >= documentHeight - 50) {
+        if (scrollPosition + windowHeight >= document.body.offsetHeight - 50) {
           setShowNextSection(true);
         }
       } else {
         // Scrolling up
-        if (scrollPosition + windowHeight < documentHeight - windowHeight / 2) {
+        if (
+          scrollPosition + windowHeight <
+          document.body.offsetHeight - windowHeight / 2
+        ) {
           setShowNextSection(false);
         }
       }
