@@ -55,3 +55,21 @@ body {
     transform: translateY(-15px) rotate(45deg);
   }
 }
+
+.bar-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 10;
+}
+
+.bar {
+  height: 2px;
+  background-color: #000;
+  transition: width 0.1s ease;
+}

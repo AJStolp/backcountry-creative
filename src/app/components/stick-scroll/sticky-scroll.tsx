@@ -1,17 +1,25 @@
 "use client";
 
-import { useSpring, animated, useScroll } from "@react-spring/web";
+import { useSpring, animated, useScroll, useSprings } from "@react-spring/web";
 import { useEffect, useRef, useState } from "react";
 import { SectionProps } from "../interfaces/section";
 
 export default function MyStickyScroll() {
   const ref = useRef<HTMLDivElement>(null);
-  const [currentSection, setCurrentSection] = useState(0);
   const [sections, setSections] = useState<SectionProps[]>([]);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const { scrollYProgress } = useScroll({
     container: ref as React.MutableRefObject<HTMLElement>,
   });
+
+  const [sectionSprings, setSectionSprings] = useSprings(
+    sections.length,
+    (index) => ({
+      opacity: index === 0 ? 1 : 0,
+    })
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,95 +27,114 @@ export default function MyStickyScroll() {
         const response = await fetch("http://localhost:5000/api/sections");
         const data: SectionProps[] = await response.json();
         setSections(data);
+        setIsLoaded(true);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
+
+    const darkModeMediaQuery = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    );
+    setIsDarkMode(darkModeMediaQuery.matches);
+
+    const handleColorSchemeChange = (e: MediaQueryListEvent) =>
+      setIsDarkMode(e.matches);
+    darkModeMediaQuery.addEventListener("change", handleColorSchemeChange);
+
+    return () =>
+      darkModeMediaQuery.removeEventListener("change", handleColorSchemeChange);
   }, []);
 
   useEffect(() => {
-    const container = ref.current;
-    if (!container) return;
+    if (isLoaded && ref.current) {
+      ref.current.scrollTop = 0;
+      window.scrollTo(0, 0);
 
-    const handleScroll = () => {
-      const scrollPosition = container.scrollTop;
-      const windowHeight = container.clientHeight;
-      const newSection = Math.round(scrollPosition / windowHeight);
-      setCurrentSection(newSection);
-    };
+      const handleScroll = () => {
+        const container = ref.current;
+        if (container) {
+          const scrollPosition = container.scrollTop;
+          const windowHeight = container.clientHeight;
+          const currentSection = Math.floor(scrollPosition / windowHeight);
 
-    container.addEventListener("scroll", handleScroll);
-    return () => container.removeEventListener("scroll", handleScroll);
-  }, []);
+          setSectionSprings.start((index) => {
+            const distanceFromCurrent = Math.abs(index - currentSection);
+            const opacity = 1 - Math.min(distanceFromCurrent, 1);
+            return {
+              opacity,
+              config: { tension: 280, friction: 60 },
+            };
+          });
+        }
+      };
+
+      ref.current.addEventListener("scroll", handleScroll);
+      return () => ref.current?.removeEventListener("scroll", handleScroll);
+    }
+  }, [isLoaded, setSectionSprings]);
 
   const scrollIndicatorStyle = useSpring({
-    opacity: scrollYProgress.to(
-      [(sections.length - 1) / sections.length, 1],
-      [1, 0]
-    ),
+    opacity: scrollYProgress.to([0, 0.9, 1], [1, 1, 0]),
   });
 
-  const ctaStyle = useSpring({
-    opacity: scrollYProgress.to([0.9, 1], [0, 1]),
-  });
+  if (!isLoaded) {
+    return (
+      <div className="h-screen flex items-center justify-center">
+        Loading...
+      </div>
+    );
+  }
 
   return (
-    <div className="h-screen overflow-hidden relative pt-8">
+    <div
+      className={`h-screen overflow-hidden relative ${
+        isDarkMode ? "dark" : ""
+      }`}
+    >
       <div
         ref={ref}
-        className="h-full w-full overflow-y-scroll scroll-smooth"
-        style={{
-          scrollSnapType: "y mandatory",
-        }}
+        className="h-full w-full overflow-y-scroll scroll-smooth sticky-scroll-container"
+        style={{ scrollSnapType: "y mandatory" }}
       >
-        <div className="min-h-[300vh] w-full">
+        <div className="w-full">
           {sections.map((section, index) => (
             <animated.div
               key={index}
-              style={{
-                opacity: index === currentSection ? 1 : 0,
-                transition: "opacity 0.5s ease-in-out",
-              }}
-              className="min-h-screen flex items-center justify-center p-8 sticky top-0"
+              style={sectionSprings[index]}
+              className="h-screen flex items-center justify-center p-8 sticky top-0"
             >
               <div
                 className="max-w-2xl text-center"
-                style={{
-                  scrollSnapAlign: "start",
-                  scrollSnapStop: "always",
-                }}
+                style={{ scrollSnapAlign: "start", scrollSnapStop: "always" }}
               >
                 <h2
-                  className={`text-3xl font-semibold mb-4 text-dark-primary ${
+                  className={`text-3xl font-semibold mb-4 text-light-text dark:text-dark-primary ${
                     index === 0 ? "text-4xl" : ""
                   }`}
                 >
                   {section.title}
                 </h2>
-                <p className="text-xl">{section.content}</p>
+                <p className="text-xl text-light-text dark:text-dark-text">
+                  {section.content}
+                </p>
+                {section.additionalServices && (
+                  <ul className="list-disc list-inside mt-4 text-dark-text dark:text-light-text">
+                    <li>{section.additionalServices.one}</li>
+                    <li>{section.additionalServices.two}</li>
+                  </ul>
+                )}
               </div>
             </animated.div>
           ))}
         </div>
       </div>
-      <div className="absolute bottom-2 left-0 right-0 flex flex-col items-center justify-center p-4 space-y-4">
+
+      <div className="absolute bottom-[13rem] left-0 right-0 flex flex-col items-center justify-center p-4 space-y-4">
         <animated.div style={scrollIndicatorStyle} className="mb-4">
-          <div className="arrow-down"></div>
-        </animated.div>
-      </div>
-      <div className="absolute bottom-[4rem] left-0 right-0 flex flex-col items-center justify-center p-4 space-y-4">
-        <animated.div style={ctaStyle}>
-          <button
-            className="bg-dark-background dark:bg-light-background hover:bg-blue-700 text-dark-text dark:text-light-text font-bold py-2 px-4 rounded"
-            onClick={() => {
-              // Add navigation logic here
-              console.log("Navigate to next section");
-            }}
-          >
-            Next Section
-          </button>
+          <div className="arrow-down border-dark-text dark:border-dark-text"></div>
         </animated.div>
       </div>
     </div>
