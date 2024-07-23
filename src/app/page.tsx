@@ -5,7 +5,7 @@ import TransitionSection from "./components/transition-section/transition-sectio
 
 export default function Home() {
   return (
-    <main className="flex flex-col">
+    <main>
       <Navigation />
       <MyStickyScroll />
       <TransitionSection />
