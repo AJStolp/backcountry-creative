@@ -2,21 +2,23 @@
 
 import { useState, useEffect } from "react";
 import { useSpring, animated } from "@react-spring/web";
+import { ServiceProps } from "@/app/interfaces/services";
 
 export default function TransitionSection() {
   const [showNextSection, setShowNextSection] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [serviceData, setServicesData] = useState<ServiceProps[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch("http://localhost:5000/api/hero-data");
-        const data: HeroProps[] = await response.json();
+        const data: ServiceProps[] = await response.json();
+        setServicesData(data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
     fetchData();
   });
 
@@ -62,6 +64,13 @@ export default function TransitionSection() {
       <h2 className="text-4xl font-bold text-dark-primary dark:text-light-primary">
         Next Section
       </h2>
+      {serviceData.map((value) => {
+        return (
+          <section key={value.key}>
+            <h2>{value.title}</h2>
+          </section>
+        );
+      })}
     </animated.section>
   );
 }
