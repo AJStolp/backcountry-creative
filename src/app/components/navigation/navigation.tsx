@@ -1,4 +1,4 @@
-import NavigationItem from "../interfaces/navigation-item";
+import NavigationItem from "../../interfaces/navigation-item";
 
 async function getData(): Promise<NavigationItem[]> {
   const res = await fetch("http://localhost:5000/api/navigation");
@@ -14,7 +14,7 @@ export default async function Navigation() {
   const data: NavigationItem[] = await getData();
 
   return (
-    <nav className="w-full max-w-screen-2xl mx-auto sticky top-0 p-4">
+    <nav className="w-full max-w-screen-2xl mx-auto sticky top-0 py-4 pt-8 z-10">
       <div className="flex flex-wrap items-center justify-between mx-auto">
         <a
           href="https://flowbite.com/"

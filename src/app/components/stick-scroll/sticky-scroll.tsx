@@ -2,11 +2,11 @@
 
 import { useSpring, animated, useScroll, useSprings } from "@react-spring/web";
 import { useEffect, useRef, useState } from "react";
-import { SectionProps } from "../interfaces/section";
+import { HeroProps } from "../../interfaces/hero";
 
 export default function MyStickyScroll() {
   const ref = useRef<HTMLDivElement>(null);
-  const [sections, setSections] = useState<SectionProps[]>([]);
+  const [sections, setSections] = useState<HeroProps[]>([]);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -24,8 +24,8 @@ export default function MyStickyScroll() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/sections");
-        const data: SectionProps[] = await response.json();
+        const response = await fetch("http://localhost:5000/api/hero-data");
+        const data: HeroProps[] = await response.json();
         setSections(data);
         setIsLoaded(true);
       } catch (error) {
@@ -102,30 +102,32 @@ export default function MyStickyScroll() {
         <div className="w-full">
           {sections.map((section, index) => (
             <animated.div
-              key={index}
+              key={section.key}
               style={sectionSprings[index]}
               className="h-screen flex items-center justify-center p-8 sticky top-0"
             >
               <div
-                className="max-w-2xl text-center"
+                className="max-w-2xl"
                 style={{ scrollSnapAlign: "start", scrollSnapStop: "always" }}
               >
-                <h2
-                  className={`text-3xl font-semibold mb-4 text-light-text dark:text-dark-primary ${
-                    index === 0 ? "text-4xl" : ""
-                  }`}
-                >
-                  {section.title}
-                </h2>
-                <p className="text-xl text-light-text dark:text-dark-text">
-                  {section.content}
-                </p>
-                {section.additionalServices && (
-                  <ul className="list-disc list-inside mt-4 text-dark-text dark:text-light-text">
-                    <li>{section.additionalServices.one}</li>
-                    <li>{section.additionalServices.two}</li>
-                  </ul>
-                )}
+                <div className="mt-[-15rem]">
+                  <h2
+                    className={`text-3xl font-semibold mb-4 text-light-text dark:text-dark-primary text-center ${
+                      index === 0 ? "text-4xl" : ""
+                    }`}
+                  >
+                    {section.title}
+                  </h2>
+                  <p className="text-left text-xl text-light-text dark:text-dark-text">
+                    {section.content}
+                  </p>
+                  {section.additionalServices && (
+                    <ul className="text-left list-disc list-inside mt-4 text-light-text dark:text-dark-text">
+                      <li>{section.additionalServices.one}</li>
+                      <li className="pt-2">{section.additionalServices.two}</li>
+                    </ul>
+                  )}
+                </div>
               </div>
             </animated.div>
           ))}

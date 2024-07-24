@@ -8,6 +8,19 @@ export default function TransitionSection() {
   const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/hero-data");
+        const data: HeroProps[] = await response.json();
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  });
+
+  useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
       const windowHeight = window.innerHeight;
@@ -36,7 +49,7 @@ export default function TransitionSection() {
 
   const transitionSpring = useSpring({
     clipPath: showNextSection
-      ? "circle(150% at 50% 100%)"
+      ? "circle(150% at 50% 50%)"
       : "circle(0% at 50% 100%)",
     config: { duration: 1000 },
   });
