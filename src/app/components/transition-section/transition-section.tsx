@@ -61,9 +61,6 @@ export default function TransitionSection() {
       style={transitionSpring}
       className="h-screen bg-light-background dark:bg-dark-background flex items-center justify-center"
     >
-      <h2 className="text-4xl font-bold text-dark-primary dark:text-light-primary">
-        Next Section
-      </h2>
       {serviceData.map((value) => {
         return (
           <section key={value.key}>

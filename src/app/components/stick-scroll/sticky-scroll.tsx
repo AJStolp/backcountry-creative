@@ -34,18 +34,6 @@ export default function MyStickyScroll() {
     };
 
     fetchData();
-
-    const darkModeMediaQuery = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    );
-    setIsDarkMode(darkModeMediaQuery.matches);
-
-    const handleColorSchemeChange = (e: MediaQueryListEvent) =>
-      setIsDarkMode(e.matches);
-    darkModeMediaQuery.addEventListener("change", handleColorSchemeChange);
-
-    return () =>
-      darkModeMediaQuery.removeEventListener("change", handleColorSchemeChange);
   }, []);
 
   useEffect(() => {
