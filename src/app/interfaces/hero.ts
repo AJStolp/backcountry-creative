@@ -1,4 +1,4 @@
-export interface SectionProps {
+export interface HeroProps {
   key: string;
   title: string;
   content: string;
