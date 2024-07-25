@@ -12,7 +12,7 @@ export default function TransitionSection() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/hero-data");
+        const response = await fetch("http://localhost:5000/api/services");
         const data: ServiceProps[] = await response.json();
         setServicesData(data);
       } catch (error) {
@@ -20,7 +20,7 @@ export default function TransitionSection() {
       }
     };
     fetchData();
-  });
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
