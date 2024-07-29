@@ -84,7 +84,7 @@ export default function MyStickyScroll() {
     >
       <div
         ref={ref}
-        className="h-full w-full overflow-y-scroll scroll-smooth sticky-scroll-container"
+        className="h-full w-full overflow-y-scroll scroll-smooth sticky-scroll-container scrollbar-hide"
         style={{ scrollSnapType: "y mandatory" }}
       >
         <div className="w-full">
